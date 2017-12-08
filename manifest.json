@@ -1,0 +1,11 @@
+{
+  "name" : "监管信息自动审核",
+  "version" : "0.1",
+  "description" : "自动加载企业监管信息详情，方便确认上传文档中企业名和数据库中企业名相同",
+  "permissions": [ "http://114.215.104.68:89/sitemanage/index.aspx" ],
+  "browser_action": {
+     "default_icon": "/images/icon19.png",
+     "default_popup": "text01.html"
+  },
+  "manifest_version": 2
+}
