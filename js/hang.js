@@ -4,13 +4,9 @@ function MyinsertRow(tbodyname) {
         var newRow = tbodyname.insertRow(i);
         newRow.style.height = '100px'
         var newCell = newRow.insertCell(0) //生成一个单元格，不然会导致无法合并单元格，因为colspan对行不生效
-        newCell.colSpan = '10'  //合并的单元格数量必须加引号
+        newCell.colSpan = '10'  //合并的单元格数量的数字必须加引号
         //先写到一个函数里，之后再优化
-        //插入一个div然后在插入表格，不然浏览器会自动裁剪
-        var newCellDiv = document.createElement('div')
-        newCellDiv.className = 'newCellDivclass'
-        //newCellDiv.innerHTML = '<tr><td>企业名称</td><td><span id="lblIndustryName" style="color:#0075C3;font-size:X-Large;">南京医科大学第二附属医院<a target="_blank" href="/sitemanage/Industry/edit.aspx?id=20336">编辑企业</a></span></td></tr>'
-
+        //在表格中插入表格，只能插入到TD标签中，不能直接插入到tr中
     }
     
 }
@@ -20,8 +16,9 @@ var s = document.getElementsByClassName('recordView')    //定位到‘查看’
 var s1 = s[0].parentElement.parentElement.parentElement  //获取到刷新出来的列表
 //geturl函数获取‘查看’元素的链接，并且将需要的内容返回
 
-// var textHtml = '<tr><td>企业名称</td><td><span id="lblIndustryName" style="color:#0075C3;font-size:X-Large;">南京医科大学第二附属医院<a target="_blank" href="/sitemanage/Industry/edit.aspx?id=20336">编辑企业</a></span></td></tr>'
 MyinsertRow(s1)
+
+s1.rows[4].innerHTML = '<td colspan="10"><table border="1px" width="100%"><tbody><tr><td>名称</td><td>公司名称</td></tr><tr><td>组织机构代码</td><td>456456464566465</td></tr></tbody></table></td>'
 
 var xh = new XMLHttpRequest();
 xh.open('get', s[0].href)
