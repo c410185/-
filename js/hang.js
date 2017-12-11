@@ -5,15 +5,19 @@
 var s = document.getElementsByClassName('recordView');    //定位到‘查看’属性
 var s1 = s[0].parentElement.parentElement.parentElement;  //获取到刷新出来的列表
 //geturl函数获取‘查看’元素的链接，并且将需要的内容返回
+var recordHtml = ''
 function getRviewHtml(recordViewVal) {
     var xh = new XMLHttpRequest();
     xh.open('get', recordViewVal.href);
-    xh.responseType = 'document';  //指定获取内容为文档类型，之后就可以以此来使用DOM属性
+    xh.responseType = 'document';  
+    xh.onreadystatechange = function () {
+        if (xh.readyState == 4) {
+            recordHtml = xh.response
+        }
+    }
     xh.send();
-    var rViewhtml = xh.response;  //获取查看链接的信息详情，对内容进行分析
-    // var ss1 = rViewhtml.getElementById('lblIndustryName')  //定位企业名称
-    return rViewhtml
 }
+
 //格式化HTML文本的函数，在getRviewHtml中引用
 function formatHtml(oldrViewhtml) {
     var oldTr = oldrViewhtml.getElementsByTagName('td')
@@ -78,8 +82,9 @@ function MyinsertRow(tbodyname) {
         //先写到一个函数里，之后再优化
         //在表格中插入表格，只能插入到TD标签中，不能直接插入到tr中
         //为了能够在一屏内完整展示企业的详细信息，所以对企业的详情页进行了删减，同时给监管记录增加了个div，在div上实现滚动条控制详情的高度，现在只能按照DOM把详情表格中的内容一个个赋值了，不知道能不能写出来
-        var oldTtml = getRviewHtml(s[i-1]);
-        newCell.innerHTML = formatHtml(oldTtml);
+        getRviewHtml(s[i-1]);
+        console.log(recordHtml)
+        //newCell.innerHTML = formatHtml(recordHtml);
     }
 }
 
@@ -89,14 +94,3 @@ MyinsertRow(s1)   //插入表格
 //一个函数，返回查看链接的HTML，之后再写一个函数格式化返回HTML文本
 
 //定位监管记录违法类型，违法事实，处罚手段
-var rViewtbody = rViewhtml.getElementsByTagName('tbody')
-//希望把详情页的前八行表格逐行填入新的表格中
-//总的目标是在新插入的表格中展示详情页的内容，想想其他办法
-function newTable(atbody) {
-    for (let i = 0; i < 8; i++) {
-        var newtab = []
-        newTab[i] = atbody[i];
-    }
-    return newTab
-}
-newTable(rViewtbody[0])  //出错，插入的是空值，还需要修改，
