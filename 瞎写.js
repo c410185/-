@@ -1,7 +1,4 @@
 
-
-//'insertRow' on 'HTMLTableSectionElement': The provided index (62 is outside the range [-1, 61].
-
 var s = document.getElementsByClassName('recordView');    //定位到‘查看’属性
 var s1 = s[0].parentElement.parentElement.parentElement;  //获取到刷新出来的列表
 //geturl函数获取‘查看’元素的链接，并且将需要的内容返回
@@ -17,10 +14,14 @@ function getRviewHtml(recordViewVal) {
     }
     xh.send();
 }
-
-//格式化HTML文本的函数，在getRviewHtml中引用
+getRviewHtml(s[0]);
+if (recordHtml) {
+    formatHtml(recordHtml)
+} else {
+    console.log('recordHtml为空')
+}
 function formatHtml(oldrViewhtml) {
-    var oldTr = oldrViewhtml.getElementsByTagName('td')
+    var oldTr = oldrViewhtml.getElementsByTagName('td');
     //直接取2,3(信用代码);4,5（机构代码）;6,7（地址）;12,13（违法事实）；14,15（处罚手段）；18,19监管记录来源；最后是详情17；获取值，然后填入新的单元格中，详情直接填入innerHTML。试试
     //建立第一行，6单元格
     var tab0 = document.createElement('table');
@@ -56,8 +57,8 @@ function formatHtml(oldrViewhtml) {
     cell_10.innerText = oldTr[18].innerText;
     cell_11.innerText = oldTr[19].innerText;
     //建立第二个表格，存放监管详情，为了增加导航条，所以放在div里
-    var div0 = document.createElement('div')
-    var tab1 = document.createElement('table')
+    var div0 = document.createElement('div');
+    var tab1 = document.createElement('table');
     var tr1_0 = tab1.insertRow();
     var cell_12 = tr1_0.insertCell();
     cell_12.innerHTML = oldTr[17].innerHTML;
@@ -66,13 +67,13 @@ function formatHtml(oldrViewhtml) {
     //div0.style.cssText = 'height : 200px; overflow-y: scroll;'
     div0.style.height = '200px';
     div0.style.overflowY = 'scroll';
-    var tab0_parent = document.createElement('table')
-    var div0_parent = document.createElement('div')
-    tab0_parent.appendChild(tab0)
-    div0_parent.appendChild(div0)
-    return tab0_parent.innerHTML + div0_parent.innerHTML //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
+    var tab0_parent = document.createElement('table');
+    var div0_parent = document.createElement('div');
+    tab0_parent.appendChild(tab0);
+    div0_parent.appendChild(div0);
+    return tab0_parent.innerHTML + div0_parent.innerHTML; //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
 }
-
+var mk = formatHtml(recordHtml)
 function MyinsertRow(tbodyname) {
     for (let i = 1; i <= tbodyname.rows.length; i=i+1) {
         var newRow = tbodyname.insertRow(i*2);
@@ -83,8 +84,8 @@ function MyinsertRow(tbodyname) {
         //在表格中插入表格，只能插入到TD标签中，不能直接插入到tr中
         //为了能够在一屏内完整展示企业的详细信息，所以对企业的详情页进行了删减，同时给监管记录增加了个div，在div上实现滚动条控制详情的高度，现在只能按照DOM把详情表格中的内容一个个赋值了，不知道能不能写出来
         getRviewHtml(s[i-1]);
-        console.log(recordHtml)
-        //newCell.innerHTML = formatHtml(recordHtml);
+        recordHtmllist[i-1] = recordHtml
+        //console.log(recordHtml)
     }
 }
 
