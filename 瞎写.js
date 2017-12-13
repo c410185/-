@@ -16,7 +16,11 @@ function getRviewHtml(recordViewVal) {
 }
 getRviewHtml(s[0]);
 if (recordHtml) {
+<<<<<<< HEAD
     formatHtml(recordHtml)
+=======
+    console.log(recordHtml)
+>>>>>>> f65316aa47ce1215aa4c6fd0035ffdc0cfe61694
 } else {
     console.log('recordHtml为空')
 }
@@ -85,9 +89,13 @@ function MyinsertRow(tbodyname) {
         //为了能够在一屏内完整展示企业的详细信息，所以对企业的详情页进行了删减，同时给监管记录增加了个div，在div上实现滚动条控制详情的高度，现在只能按照DOM把详情表格中的内容一个个赋值了，不知道能不能写出来
         getRviewHtml(s[i-1]);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         recordHtmllist[i-1] = recordHtml
 >>>>>>> 39b100dbc593858ee07317fe628acd9de729e132
+=======
+        recordHtmllist[i-1] = recordHtml
+>>>>>>> f65316aa47ce1215aa4c6fd0035ffdc0cfe61694
         //console.log(recordHtml)
     }
 }

@@ -56,8 +56,8 @@ function formatHtml(oldrViewhtml) {
     cell_10.innerText = oldTr[18].innerText;
     cell_11.innerText = oldTr[19].innerText;
     //建立第二个表格，存放监管详情，为了增加导航条，所以放在div里
-    var div0 = document.createElement('div')
-    var tab1 = document.createElement('table')
+    var div0 = document.createElement('div');
+    var tab1 = document.createElement('table');
     var tr1_0 = tab1.insertRow();
     var cell_12 = tr1_0.insertCell();
     cell_12.innerHTML = oldTr[17].innerHTML;
@@ -66,10 +66,10 @@ function formatHtml(oldrViewhtml) {
     //div0.style.cssText = 'height : 200px; overflow-y: scroll;'
     div0.style.height = '200px';
     div0.style.overflowY = 'scroll';
-    var tab0_parent = document.createElement('table')
-    var div0_parent = document.createElement('div')
-    tab0_parent.appendChild(tab0)
-    div0_parent.appendChild(div0)
+    var tab0_parent = document.createElement('table');
+    var div0_parent = document.createElement('div');
+    tab0_parent.appendChild(tab0);
+    div0_parent.appendChild(div0);
     return tab0_parent.innerHTML + div0_parent.innerHTML //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
 }
 
