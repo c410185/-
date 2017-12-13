@@ -26,10 +26,7 @@ var s1 = allTbody[9];
 
 (function() {
     'use strict';
-
-    // Your code here...
     var s = document.getElementsByClassName('recordView');    //定位到‘查看’属性
-    //var s1 = s[0].parentElement.parentElement.parentElement;
     //企业列表是页面上第10个表
     var allTbody = document.getElementsByTagName('tbody');
     var s1 = allTbody[9];
@@ -37,11 +34,26 @@ var s1 = allTbody[9];
         for (let i = 1,l = tbodyname.rows.length; i < l; i=i+1) {
             var newRow = tbodyname.insertRow(i*2);
             newRow.style.height = '100px';
-            var newCell = newRow.insertCell(0); //生成一个单元格，不然会导致无法合并单元格，因为colspan对行不生效
-            newCell.colSpan = '11';  //合并的单元格数量的数字必须加引号
-
+            var newCell = newRow.insertCell(0);
+            newCell.colSpan = '11';
         }
     }
 
     MyinsertRow(s1);
+    var recordHtml = '<div><span>fdsfsd</span></div>';
+    function getRviewHtml(recordViewVal) {
+        var xh = new XMLHttpRequest();
+        xh.open('get', recordViewVal.href);
+        xh.responseType = 'document';
+        xh.onreadystatechange = function () {
+                recordHtml = xh.response;
+        }
+        xh.send();
+    }
+    getRviewHtml(s[0]);
+    if (recordHtml) {
+        console.log(recordHtml);
+    } else {
+        console.log('recordHtml为空');
+    }
 })();

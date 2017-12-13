@@ -6,7 +6,7 @@ var recordHtml = ''
 function getRviewHtml(recordViewVal) {
     var xh = new XMLHttpRequest();
     xh.open('get', recordViewVal.href);
-    xh.responseType = 'document';  
+    xh.responseType = 'document';
     xh.onreadystatechange = function () {
         if (xh.readyState == 4) {
             recordHtml = xh.response
@@ -16,16 +16,15 @@ function getRviewHtml(recordViewVal) {
 }
 getRviewHtml(s[0]);
 if (recordHtml) {
-<<<<<<< HEAD
-    formatHtml(recordHtml)
-=======
     console.log(recordHtml)
->>>>>>> f65316aa47ce1215aa4c6fd0035ffdc0cfe61694
 } else {
     console.log('recordHtml为空')
 }
 function formatHtml(oldrViewhtml) {
-    var oldTr = oldrViewhtml.getElementsByTagName('td');
+    var oldTr;
+    if (oldrViewhtml) {
+        oldTr = oldrViewhtml.getElementsByTagName('td');
+    }
     //直接取2,3(信用代码);4,5（机构代码）;6,7（地址）;12,13（违法事实）；14,15（处罚手段）；18,19监管记录来源；最后是详情17；获取值，然后填入新的单元格中，详情直接填入innerHTML。试试
     //建立第一行，6单元格
     var tab0 = document.createElement('table');
@@ -79,24 +78,15 @@ function formatHtml(oldrViewhtml) {
 }
 var mk = formatHtml(recordHtml)
 function MyinsertRow(tbodyname) {
-    for (let i = 1; i <= tbodyname.rows.length; i=i+1) {
-        var newRow = tbodyname.insertRow(i*2);
+    for (let i = 1; i <= tbodyname.rows.length; i = i + 1) {
+        var newRow = tbodyname.insertRow(i * 2);
         newRow.style.height = '100px';
         var newCell = newRow.insertCell(0); //生成一个单元格，不然会导致无法合并单元格，因为colspan对行不生效
         newCell.colSpan = '11';  //合并的单元格数量的数字必须加引号
         //先写到一个函数里，之后再优化
         //在表格中插入表格，只能插入到TD标签中，不能直接插入到tr中
         //为了能够在一屏内完整展示企业的详细信息，所以对企业的详情页进行了删减，同时给监管记录增加了个div，在div上实现滚动条控制详情的高度，现在只能按照DOM把详情表格中的内容一个个赋值了，不知道能不能写出来
-        getRviewHtml(s[i-1]);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        recordHtmllist[i-1] = recordHtml
->>>>>>> 39b100dbc593858ee07317fe628acd9de729e132
-=======
-        recordHtmllist[i-1] = recordHtml
->>>>>>> f65316aa47ce1215aa4c6fd0035ffdc0cfe61694
-        //console.log(recordHtml)
+        getRviewHtml(s[i - 1]);
     }
 }
 
