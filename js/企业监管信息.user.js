@@ -14,7 +14,7 @@
             newRow.style.height = '100px';
             var newCell = newRow.insertCell(0);
             newCell.colSpan = '11';
-            getRviewHtml(s[i - 1]);
+            getRviewHtml(s[i - 1], newCell);
             //console.log(i-1);
             //console.log(htmlList.length);  //显示为0
             //newCell.innerHTML = newHtml;
@@ -74,26 +74,26 @@
         return tab0_parent.innerHTML + div0_parent.innerHTML; //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
     }
 
+    function callback(result,newCell) {
+        //code that depends on 'result'
+        var recordHtml = result;
+        var newHtml = formatHtml(recordHtml);
+        htmlList.push(newHtml);
+        newCell.innerHTML = newHtml;
+    }
 
-    function getRviewHtml(recordViewVal) {
+    function getRviewHtml(recordViewVal,newCell) {
         var xh = new XMLHttpRequest();
-        xh.onreadystatechange = function () {
-            if (xh.readyState == 4 && xh.status == 200) {
-                var recordHtml = xh.response;
-                var newHtml = formatHtml(recordHtml);
-                htmlList.push(newHtml);
+        xh.onload = function () {
+            callback(xh.response,newCell);
                 //console.log(htmlList.length);此处能获得所有值，但是在外面还是无法获得HTMLlist的长度，感觉还是不对
                 //console.log(newHtml);//将获取链接后的操作都写在此处，可能存在变量作用域问题，在外部无法访问到recordHTML的值,直接搜索此函数的返回值，详细在看看
             }
             //return recordHtml;
-        };
         xh.open('get', recordViewVal.href, true);
         xh.responseType = 'document';
         xh.send(null);
-    }
-    function returnHtml(somehtml) {
-        htmlList.push(somehtml);
-    }
+    };
     MyinsertRow(s1);
     //getRviewHtml(s[0]);
 })();
