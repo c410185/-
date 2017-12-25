@@ -14,6 +14,7 @@
             newRow.style.height = '100px';
             var newCell = newRow.insertCell(0);
             newCell.colSpan = '11';
+            newcell.style.padding = '0px';
             getRviewHtml(s[i - 1], newCell);
             //console.log(i-1);
             //console.log(htmlList.length);  //显示为0
@@ -30,6 +31,8 @@
         var cell_1 = tr0_0.insertCell();
         cell_0.innerText = oldTr[2].innerText;
         cell_1.innerText = oldTr[3].innerText;
+        cell_0.className = 'jgjlCellClass';
+        cell_1.className = 'jgjlCellClass';
 
         var cell_2 = tr0_0.insertCell();
         var cell_3 = tr0_0.insertCell();
@@ -54,8 +57,8 @@
 
         var cell_10 = tr0_1.insertCell();
         var cell_11 = tr0_1.insertCell();
-        cell_10.innerText = oldTr[18].innerText;
-        cell_11.innerText = oldTr[19].innerText;
+        cell_10.innerText = oldTr[oldTr.length - 24].innerText; //问题在于将oldTr的列表是包含了详情的，所以对于详情是表格的情况，cell_10/11会获取到详情中的第一和第二个表格，与希望的值不符
+        cell_11.innerText = oldTr[oldTr.length - 25].innerText;
         //建立第二个表格，存放监管详情，为了增加导航条，所以放在div里
         var div0 = document.createElement('div');
         var tab1 = document.createElement('table');

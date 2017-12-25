@@ -1,30 +1,25 @@
-
+'use strict';
 var s = document.getElementsByClassName('recordView');    //定位到‘查看’属性
-var s1 = s[0].parentElement.parentElement.parentElement;  //获取到刷新出来的列表
-//geturl函数获取‘查看’元素的链接，并且将需要的内容返回
-var recordHtml = ''
-function getRviewHtml(recordViewVal) {
-    var xh = new XMLHttpRequest();
-    xh.open('get', recordViewVal.href);
-    xh.responseType = 'document';
-    xh.onreadystatechange = function () {
-        if (xh.readyState == 4) {
-            recordHtml = xh.response
-        }
+//企业列表是页面上第10个表
+var allTbody = document.getElementsByTagName('tbody');
+var s1 = allTbody[9];
+var recordHtml = '<div><span>fdsfsd</span></div>';
+var newHtml;
+var htmlList = [];
+function MyinsertRow(tbodyname) {
+    for (let i = 1,l = tbodyname.rows.length; i < l; i=i+1) {
+        var newRow = tbodyname.insertRow(i*2);
+        newRow.style.height = '100px';
+        var newCell = newRow.insertCell(0);
+        newCell.colSpan = '11';
+        getRviewHtml(s[i-1]);
+        //console.log(i-1);
+        //console.log(htmlList.length);  //显示为0
+        //newCell.innerHTML = newHtml;
     }
-    xh.send();
-}
-getRviewHtml(s[0]);
-if (recordHtml) {
-    console.log(recordHtml)
-} else {
-    console.log('recordHtml为空')
 }
 function formatHtml(oldrViewhtml) {
-    var oldTr;
-    if (oldrViewhtml) {
-        oldTr = oldrViewhtml.getElementsByTagName('td');
-    }
+    var oldTr = oldrViewhtml.getElementsByTagName('td');
     //直接取2,3(信用代码);4,5（机构代码）;6,7（地址）;12,13（违法事实）；14,15（处罚手段）；18,19监管记录来源；最后是详情17；获取值，然后填入新的单元格中，详情直接填入innerHTML。试试
     //建立第一行，6单元格
     var tab0 = document.createElement('table');
@@ -76,18 +71,23 @@ function formatHtml(oldrViewhtml) {
     div0_parent.appendChild(div0);
     return tab0_parent.innerHTML + div0_parent.innerHTML; //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
 }
-var mk = formatHtml(recordHtml)
-function MyinsertRow(tbodyname) {
-    for (let i = 1; i <= tbodyname.rows.length; i = i + 1) {
-        var newRow = tbodyname.insertRow(i * 2);
-        newRow.style.height = '100px';
-        var newCell = newRow.insertCell(0); //生成一个单元格，不然会导致无法合并单元格，因为colspan对行不生效
-        newCell.colSpan = '11';  //合并的单元格数量的数字必须加引号
-        //先写到一个函数里，之后再优化
-        //在表格中插入表格，只能插入到TD标签中，不能直接插入到tr中
-        //为了能够在一屏内完整展示企业的详细信息，所以对企业的详情页进行了删减，同时给监管记录增加了个div，在div上实现滚动条控制详情的高度，现在只能按照DOM把详情表格中的内容一个个赋值了，不知道能不能写出来
-        getRviewHtml(s[i - 1]);
-    }
+
+
+function getRviewHtml(recordViewVal) {
+    var xh = new XMLHttpRequest();
+    xh.onload = function () {
+        var recordHtml = xh.response;
+        var newHtml = formatHtml(recordHtml);
+        htmlList.push(newHtml);
+        //console.log(htmlList.length);此处能获得所有值，但是在外面还是无法获得HTMLlist的长度，感觉还是不对
+        //console.log(newHtml);//将获取链接后的操作都写在此处，可能存在变量作用域问题，在外部无法访问到recordHTML的值,直接搜索此函数的返回值，详细在看看
+    };
+    //return recordHtml;
+xh.open('get', recordViewVal.href, true);
+xh.responseType = 'document';
+xh.send(null);
 }
 
-MyinsertRow(s1)   //插入表格
+MyinsertRow(s1);
+//getRviewHtml(s[0]);
+console.log(htmlList.length);
