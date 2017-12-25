@@ -14,6 +14,7 @@
             newRow.style.height = '100px';
             var newCell = newRow.insertCell(0);
             newCell.colSpan = '11';
+            newCell.bgColor = '#ccc'; //不显示
             getRviewHtml(s[i - 1], newCell);
             //console.log(i-1);
             //console.log(htmlList.length);  //显示为0
@@ -54,8 +55,8 @@
 
         var cell_10 = tr0_1.insertCell();
         var cell_11 = tr0_1.insertCell();
-        cell_10.innerText = oldTr[18].innerText;
-        cell_11.innerText = oldTr[19].innerText;
+        cell_10.innerText = oldTr[oldTr.length - 24].innerText;
+        cell_11.innerText = oldTr[oldTr.length - 23].innerText;
         //建立第二个表格，存放监管详情，为了增加导航条，所以放在div里
         var div0 = document.createElement('div');
         var tab1 = document.createElement('table');
@@ -71,6 +72,7 @@
         var div0_parent = document.createElement('div');
         tab0_parent.appendChild(tab0);
         div0_parent.appendChild(div0);
+        tab0_parent.bgColor = '#cccccc';
         return tab0_parent.innerHTML + div0_parent.innerHTML; //因为取的是包含的HTML元素，这样会导致最外层的一个标签作为容器本身的元素而不被传递
     }
 
